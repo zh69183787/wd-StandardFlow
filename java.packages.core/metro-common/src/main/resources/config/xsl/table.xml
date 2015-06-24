@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<pagesize>A3-H</pagesize>
+<table border = "1">
+	<tr ><td colspan="38" align = 'center' font-size="20pt">招标<font color='red'>工作</font>周计划完成情况一览表</td></tr>
+        <tr valign='bottom'>
+			<td rowspan="2" >序号</td>
+			<td rowspan="2">工程名称</td>
+			<td rowspan="2">接收需求表</td>
+			<td rowspan="2">确定招标方式</td>
+			<td rowspan="2">确定招标代理</td>
+			<td rowspan="2">代理提补充资料</td>
+			<td rowspan="2">转发需求部门</td>
+			<td rowspan="2">需求部门回复</td>
+			<td rowspan="2">回复招标代理</td>
+			<td colspan="5">草拟招标文件，合同条款征求需求部门意见并回馈意见。</td>
+			<td rowspan="2">确定招标文件</td>
+			<td rowspan="2">招标文件发律师审核</td>
+			<td rowspan="2">根据律师意见修改招标文件</td>
+			<td rowspan="2">招标文件报重点办审批</td>
+			<td rowspan="2">根据重点办意见修改招标文件</td>
+			<td rowspan="2">预约开标时间</td>
+			<td rowspan="2">公告及文件盖章</td>
+			<td rowspan="2">制作招标文件</td>
+			<td rowspan="2">接受投标报名</td>
+			<td colspan="4">资格预审</td>
+			<td rowspan="2">发放招标文件</td>
+			<td rowspan="2">答疑</td>
+			<td rowspan="2">定控制价（如需）</td>
+			<td rowspan="2">开标</td>
+			<td rowspan="2">公示报批</td>
+			<td rowspan="2">开标后公示</td>
+			<td rowspan="2">中标通知书报批</td>
+			<td rowspan="2">发中标通知书</td>
+			<td rowspan="2">提出需求部门</td>
+			<td rowspan="2">责任人</td>
+			<td rowspan="2">备注</td>
+        </tr>
+        <tr >
+			  <td>代理拟招标要素</td>
+			  <td>合约部审核</td>
+			  <td>领导小组讨论</td>
+			  <td>拟定会议纪要</td>
+			  <td>要素及文件报批</td>
+			  <td>发资审文件</td>
+			  <td>资审答疑</td>
+			  <td>资格预审</td>
+			  <td>预审公示</td>
+        </tr>
+    </table>
+    <table >
+    	<tr><td>1</td><td>2</td><td>3</td></tr>
+    	<tr><td>4</td><td>5</td><td>6</td></tr>
+   	</table>
+   </root>

@@ -1,0 +1,43 @@
+/* CSS Version Default */
+/* Version: 2.0  || Date: 2013-04-17 || Author: Cathy */
+/* Cascading Style Sheets Level 2 Revision 1 */
+@charset "utf-8";
+/*login*/
+.login{
+	background-image:url(./default/images/loginbg/login1400.jpg);}
+.login .logo{
+	background:url(./default/images/logo.png) left top no-repeat;
+}
+.login .form_bg{
+	background:url(./default/images/login_bg1.png) left top no-repeat;
+}
+.login h2{
+	border-bottom:#de491e 2px solid;
+}
+.login h3{
+	color:#d0d0d0;
+}
+.login h4{
+	color:#f0f0f0;
+}
+.login label{
+	color:#464646;
+}
+.login input[type="text"], .login input[type="password"]{
+	background-color:#fbfbfb;
+}
+.login input[type="checkbox"]{
+	color:#ff8a00;
+}
+.login button, .login input[type="button"]{
+	background:#de491e;
+	color:#fff;
+	text-shadow:#bc6600 0 1px 1px;
+}
+.login button:hover, .login input[type="button"]:hover{
+	background:#bb360f;
+}
+
+/*login end*/
+
+

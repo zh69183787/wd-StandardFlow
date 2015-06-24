@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<global-method-security pre-post-annotations="enabled" />
+
+	<http pattern="/login.html" security="none" />
+	<http pattern="/js/**"   security="none" />
+	<http pattern="/app/**"     security="none" />
+	<http pattern="/images/**"  security="none" />
+	<http pattern="/icons/**"   security="none" />
+	<http pattern="/lib/**"   security="none" />
+	<http pattern="/resource/**"   security="none" />
+	<http pattern="/secure/passwordChange"   security="none" />
+	<http pattern="/secure/passwordChange.jsp"   security="none" />
+	<http pattern="/nodeProjectBaseInfo/schList"   security="none" />
+	<http pattern="/nodeProjectBaseInfo/nodeScheduleView"   security="none" />
+	<http pattern="/caClient.jsp"   security="none" />
+	<!-- http pattern="/buses/**" security="none" />
+	<http pattern="/webview/**" security="none" /> -->
+
+	<http use-expressions="true" access-denied-page="/403.html"><!-- 当访问被拒绝时，会转到403.jsp -->
+
+		<!-- <intercept-url pattern="/**" access="permitAll" /> -->
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+
+		<form-login login-page="/login.html"
+			authentication-success-handler-ref="authSuccessHandler"
+			authentication-failure-handler-ref="authFailureHandler"
+			default-target-url="/secure/index"/>
+		<logout invalidate-session="true" logout-url="/secure/logout" 
+			logout-success-url="/login.html" delete-cookies="JSESSIONID"/>  
+
+	</http>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userService">
+			<password-encoder hash="md5" />
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

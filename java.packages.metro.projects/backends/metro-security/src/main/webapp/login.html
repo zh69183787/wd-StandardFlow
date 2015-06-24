@@ -1,0 +1,100 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<link type="text/css" rel="stylesheet" href="extjs/resources/ext-theme-classic/ext-theme-classic-all.css">
+<script type="text/javascript" src="extjs/ext-all.js"></script>
+<script type="text/javascript" src="extjs/locale/ext-lang-zh_CN.js"></script>
+<script type="text/javascript">
+Ext.onReady(function() {
+
+    Ext.create('Ext.window.Window', {
+        autoShow: true,
+        title: '用户登录',
+        plain: true,
+        modal: true,
+        closable: false,
+        bodyPadding: 1,
+        constrainHeader: true,
+        layout: 'fit',
+        items: [{
+            xtype: 'form',
+            width: 270,
+            url: 'j_spring_security_check',
+            bodyPadding: 5,
+            frame: true,
+            fieldDefaults: {
+                labelWidth: 60
+            },
+            defaultType: 'textfield',
+            defaults: {
+                allowBlank: false,
+                anchor: '100%'
+            },
+            items: [{
+                fieldLabel: '用户名',
+                name: 'j_username',
+                value: 'admin'
+            },{
+                fieldLabel: '密码',
+                name: 'j_password',
+                inputType: 'password',
+                value: '123456'
+            },{
+                xtype: 'combobox',
+                fieldLabel: '账号',
+                name: 'account',
+                displayField: 'name',
+                editable: false,
+                emptyText: '登陆后请选择一个账号!',
+                store: Ext.create('Ext.data.Store', {
+                    fields: ['name'],
+                    proxy: {
+                        type: 'rest',
+                        url: 'accounts/findByUserLoginName'
+                    }
+                }),
+                disabled: true
+            }]
+        }],
+        buttonAlign: 'center',
+        buttons: [{
+            text: '登录',
+            handler: function() {
+                var f = this.up('window').child('form').getForm();
+                if (f.isValid()) {
+                    if (!window.authenticated) {
+                        f.submit({
+                            success: function(form, action) {
+                                var account = form.findField('account'),
+                                    loginName = form.findField('j_username'),
+                                    password = form.findField('j_password');
+                                
+                                account.enable();
+                                loginName.disable();
+                                password.disable();
+                                
+                                account.getStore()
+                                    .getProxy().setExtraParam('loginName', loginName.getValue());
+                                
+                                window.authenticated = true;
+                            },
+                            failure: function(form, action) {
+                                form.markInvalid({j_username: '用户姓或密码错误, 请重新登陆!'});
+                            }
+                        });
+                    } else {
+                        window.location.replace('index.html');
+                    }
+                }
+            }
+        }, {
+            text: '重置',
+            handler: function() {
+                this.up('window').child('form').getForm().reset();
+            }
+        }]
+    });
+    
+});
+</script>
+</head>
+</html>

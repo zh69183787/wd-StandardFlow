@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>上海申通地铁集团有限公司标准化管理系统</title>
+<link rel="stylesheet" href="resource/css/formalize.css">
+<link rel="stylesheet" href="resource/css/reset.css">
+<link href="resource/css/pages.css" rel="stylesheet" type="text/css">
+<link href="resource/css/imgs.css" rel="stylesheet" type="text/css">
+<script src="js/html5.js"></script>
+<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="js/jquery.cookie.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(window != top){
+		top.location.href = 'logout';
+	}		//$(obj).click();
+	$('form input').keyup(function (e) {
+		if (e.which == 13) {
+			login_on();
+			return false;
+		}
+	});	
+	var cookienc = $.cookie('NCINFO');
+	if(cookienc){
+		$('#j_username').val(cookienc.split("nn@#nc#@wd")[0]);
+		$('#j_password').val(cookienc.split("nn@#nc#@wd")[1]);
+	}
+	
+});
+
+function login_on(){
+	if($('#j_username').val()==""||$('#j_username').val()==null){
+		$("#errorInfo").html("用户名不能为空！");
+		$('#j_username').focus()
+	}else if($('#j_password').val()==""||$('#j_password').val()==null){
+		$("#errorInfo").html("密码不能为空！");
+		$('#j_password').focus()
+	}else{
+		login_on_v();
+	}
+}
+
+function login_on_v(){
+	if($("#account").val()==""||$("#account").val()==null){
+		$.ajax({
+			   type: "POST",
+			   url: "j_spring_security_check",
+			   data: "j_username="+$('#j_username').val()+"&j_password="+$('#j_password').val(),
+			   cache:false,
+			  dataType:'text',
+			  async:true,
+			   success: function(jsonLogin){
+				 var msg = eval("(" + jsonLogin + ")");  
+				 if(msg.success){
+					 $.ajax({
+						   type: "GET",
+						   url: "accounts/findByUserLoginName",
+						   data: "loginName="+$('#j_username').val(),
+						   cache:false,///////////
+						   dataType:'json',//////////
+						   success: function(json){
+							 if(json){
+								 $("#account").attr("disabled",false);
+								 if(json.length == 0){
+									 alert('未获取用户账号，请联系管理员');
+									 return;
+								 }
+								 for(var i=0;i<json.length;i++){
+									 var str = json[i].group == null ? " " : json[i].group.name;
+									 $("#account").append("<option value='"+json[i].id+"'>"+json[i].name + "(" + str + ")" +"</option>");
+								 }
+								 if(json.length == 1){
+									/// alert($("#issave:checked").length);
+									 if($("#issave:checked").length>0){
+										 $.cookie('NCINFO', $('#j_username').val()+'nn@#nc#@wd'+$('#j_password').val(), { expires: 14 });
+									 }else{
+										 $.cookie('NCINFO',null);
+										// alert($.cookie('NCINFO'));
+									 }
+									 $('#form').submit();
+								 }
+							 }else{
+								 alert('未获取用户账号，请联系管理员');
+								 return;
+							 }
+						   }
+
+						});
+				 }else{
+					 alert("用户密码错误");
+				 }
+			     
+			   }
+			});
+	}else{
+		$('#form').submit();
+	}
+}
+</script>
+</head>
+
+<body class="login">
+	<div class="body clearfix">
+    	<div class="fl"><span style="font-size:28px;">上海申通地铁集团有限公司</span><br>&nbsp;<span style="font-size:24px;">标准管理系统</span></div>
+        <div class="form_bg fr">
+        	<hgroup class="clearfix" style="margin-bottom: 20px;">
+            	<h2 class="fl">用户登录</h2>
+                <h4 class="fl">|</h4>
+                <h3 class="fl">User Login</h3>
+            </hgroup>
+            <div class="con">
+            	<form id="form" class="clearfix" action="secure/index" method="post">
+                	<table>
+                    	<tr>
+                        	<td class="t_r"><label class="mr8">用户名</label></td>
+                            <td><input type="text" name="j_username" id="j_username" /></td>
+                        </tr>
+                    	<tr>
+                        	<td class="t_r"><label class="mr8">密&nbsp;&nbsp;&nbsp;码</label></td>
+                            <td><input type="password" name="j_password" id="j_password" /></td>
+                        </tr>
+                        <tr>
+                        	<td><label class="mr8">账&nbsp;&nbsp;&nbsp;号</label></td>
+                            <td><select name="account" id="account" disabled="disabled"></select></td>
+                        </tr>
+                        <tr>
+                        	<td align="right" style="text-align: right;"><label class="mr8"><input type="checkbox" checked id="issave" /></label></td>
+                            <td>两周内记住密码？</td>
+                        </tr>
+                        <tr>
+                        	<td></td>
+                            <td><input name="button" type="button" onClick="login_on()" value="登 录"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
